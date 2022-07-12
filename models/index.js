@@ -27,12 +27,13 @@ db.sequelize = sequelize;
 
 // making user model to db object
 db.material = require("./materialModel")(sequelize, DataTypes);
-// db.ticket = require("./ticketModel")(sequelize, DataTypes);
+db.bank = require("./banksModel")(sequelize, DataTypes);
+db.branch = require("./branchModel")(sequelize, DataTypes);
 
 //sync tables
 const syncTables = async () => {
   try {
-    await db.sequelize.sync({ alter: true });
+    await db.sequelize.sync({ force: true });
     console.log("table sync successful".cyan.underline);
   } catch (error) {
     console.log(`Error:${error.message}`.red.underline.bold);
@@ -43,10 +44,10 @@ connectDB();
 syncTables(); // optional -  When create new table
 
 //define Relationships
-//one to many relationship between user and tickets
+//one to many relationship between banks and branches
 
-// db.user.hasMany(db.ticket);
-// db.ticket.belongsTo(db.user);
+db.bank.hasMany(db.branch, { foreignKey: "bankCode" });
+db.branch.belongsTo(db.bank, { foreignKey: "bankCode" });
 
 //export db object
 module.exports = db;
