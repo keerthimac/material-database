@@ -14,10 +14,10 @@ const getMaterials = asyncHandler(async (req, res) => {
   //     throw new Error("user not found");
   //   }
 
-  const tickets = await Material.findAll({
+  const material = await Material.findAll({
     // attributes: ["id", "material"],
   });
-  res.status(200).json(tickets);
+  res.status(200).json(material);
 });
 
 module.exports = {

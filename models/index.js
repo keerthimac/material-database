@@ -26,9 +26,44 @@ const db = {};
 db.sequelize = sequelize;
 
 // making user model to db object
-db.material = require("./materialModel")(sequelize, DataTypes);
-db.bank = require("./banksModel")(sequelize, DataTypes);
-db.branch = require("./branchModel")(sequelize, DataTypes);
+db.material = require("./materials/materialModel")(sequelize, DataTypes);
+db.bank = require("./banks/banksModel")(sequelize, DataTypes);
+db.branch = require("./banks/branchModel")(sequelize, DataTypes);
+
+//Plumbing
+db.plumSize = require("./materials/plumbing/plumSizeModel")(
+  sequelize,
+  DataTypes
+);
+db.plumGrade = require("./materials/plumbing/plumGradeModel")(
+  sequelize,
+  DataTypes
+);
+db.plumPipePrice = require("./materials/plumbing/plumPipePriceModel")(
+  sequelize,
+  DataTypes
+);
+db.plumFittingType = require("./materials/plumbing/plumFittingTypeModel")(
+  sequelize,
+  DataTypes
+);
+db.plumFitting = require("./materials/plumbing/plumFittingModel")(
+  sequelize,
+  DataTypes
+);
+db.plumFittingPrice = require("./materials/plumbing/plumFittingPriceModel")(
+  sequelize,
+  DataTypes
+);
+db.plumPriceVersion = require("./materials/plumbing/plumPriceVersionModel")(
+  sequelize,
+  DataTypes
+);
+
+db.plumBrand = require("./materials/plumbing/plumBrandModel")(
+  sequelize,
+  DataTypes
+);
 
 //sync tables
 const syncTables = async () => {
@@ -48,6 +83,51 @@ syncTables(); // optional -  When create new table
 
 db.bank.hasMany(db.branch, { foreignKey: "bankCode" });
 db.branch.belongsTo(db.bank, { foreignKey: "bankCode" });
+
+//define Relationships
+
+//fitting Relationships
+db.plumFittingType.hasMany(db.plumFitting, { foreignKey: "plumFittingTypeId" });
+db.plumFitting.belongsTo(db.plumFittingType, {
+  foreignKey: "plumFittingTypeId",
+});
+
+db.plumFitting.hasMany(db.plumFittingPrice, {
+  foreignKey: "plumFittingId",
+});
+db.plumFittingPrice.belongsTo(db.plumFitting, {
+  foreignKey: "plumFittingId",
+});
+
+db.plumSize.hasMany(db.plumFittingPrice, { foreignKey: "plumSizeId" });
+db.plumFittingPrice.belongsTo(db.plumSize, { foreignKey: "plumSizeId" });
+
+db.plumPriceVersion.hasMany(db.plumFittingPrice, {
+  foreignKey: "plumPriceVersionId",
+});
+db.plumFittingPrice.belongsTo(db.plumPriceVersion, {
+  foreignKey: "plumPriceVersionId",
+});
+
+db.plumBrand.hasMany(db.plumFittingPrice, { foreignKey: "plumBrandId" });
+db.plumFittingPrice.belongsTo(db.plumBrand, { foreignKey: "plumBrandId" });
+
+//Pipe Relationships
+db.plumGrade.hasMany(db.plumPipePrice, { foreignKey: "plumGradeId" });
+db.plumPipePrice.belongsTo(db.plumGrade, { foreignKey: "plumGradeId" });
+
+db.plumPriceVersion.hasMany(db.plumPipePrice, {
+  foreignKey: "plumPriceVersionId",
+});
+db.plumPipePrice.belongsTo(db.plumPriceVersion, {
+  foreignKey: "plumPriceVersionId",
+});
+
+db.plumSize.hasMany(db.plumPipePrice, { foreignKey: "plumSizeId" });
+db.plumPipePrice.belongsTo(db.plumSize, { foreignKey: "plumSizeId" });
+
+db.plumBrand.hasMany(db.plumPipePrice, { foreignKey: "plumBrandId" });
+db.plumPipePrice.belongsTo(db.plumBrand, { foreignKey: "plumBrandId" });
 
 //export db object
 module.exports = db;
