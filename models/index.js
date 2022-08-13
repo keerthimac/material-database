@@ -47,10 +47,7 @@ db.plumFittingType = require("./materials/plumbing/plumFittingTypeModel")(
   sequelize,
   DataTypes
 );
-db.plumFitting = require("./materials/plumbing/plumFittingModel")(
-  sequelize,
-  DataTypes
-);
+
 db.plumFittingPrice = require("./materials/plumbing/plumFittingPriceModel")(
   sequelize,
   DataTypes
@@ -61,6 +58,21 @@ db.plumPriceVersion = require("./materials/plumbing/plumPriceVersionModel")(
 );
 
 db.plumBrand = require("./materials/plumbing/plumBrandModel")(
+  sequelize,
+  DataTypes
+);
+
+db.plumPipeInfo = require("./materials/plumbing/plumPipeInfoModel")(
+  sequelize,
+  DataTypes
+);
+
+db.plumFittingInfo = require("./materials/plumbing/plumFittingInfoModel")(
+  sequelize,
+  DataTypes
+);
+
+db.plumFitting = require("./materials/plumbing/plumFittingModel")(
   sequelize,
   DataTypes
 );
@@ -87,20 +99,35 @@ db.branch.belongsTo(db.bank, { foreignKey: "bankCode" });
 //define Relationships
 
 //fitting Relationships
-db.plumFittingType.hasMany(db.plumFitting, { foreignKey: "plumFittingTypeId" });
-db.plumFitting.belongsTo(db.plumFittingType, {
+db.plumFittingType.hasMany(db.plumFittingInfo, {
+  foreignKey: "plumFittingTypeId",
+});
+db.plumFittingInfo.belongsTo(db.plumFittingType, {
   foreignKey: "plumFittingTypeId",
 });
 
-db.plumFitting.hasMany(db.plumFittingPrice, {
+db.plumFitting.hasMany(db.plumFittingInfo, {
   foreignKey: "plumFittingId",
 });
-db.plumFittingPrice.belongsTo(db.plumFitting, {
+db.plumFittingInfo.belongsTo(db.plumFitting, {
   foreignKey: "plumFittingId",
 });
 
-db.plumSize.hasMany(db.plumFittingPrice, { foreignKey: "plumSizeId" });
-db.plumFittingPrice.belongsTo(db.plumSize, { foreignKey: "plumSizeId" });
+db.plumSize.hasMany(db.plumFittingInfo, { foreignKey: "plumSizeId" });
+db.plumFittingInfo.belongsTo(db.plumSize, { foreignKey: "plumSizeId" });
+
+db.plumGrade.hasMany(db.plumFittingInfo, { foreignKey: "plumGradeId" });
+db.plumFittingInfo.belongsTo(db.plumGrade, { foreignKey: "plumGradeId" });
+
+db.plumBrand.hasMany(db.plumFittingInfo, { foreignKey: "plumBrandId" });
+db.plumFittingInfo.belongsTo(db.plumBrand, { foreignKey: "plumBrandId" });
+
+db.plumFittingInfo.hasMany(db.plumFittingPrice, {
+  foreignKey: "plumFittingId",
+});
+db.plumFittingPrice.belongsTo(db.plumFittingInfo, {
+  foreignKey: "plumFittingId",
+});
 
 db.plumPriceVersion.hasMany(db.plumFittingPrice, {
   foreignKey: "plumPriceVersionId",
@@ -109,12 +136,15 @@ db.plumFittingPrice.belongsTo(db.plumPriceVersion, {
   foreignKey: "plumPriceVersionId",
 });
 
-db.plumBrand.hasMany(db.plumFittingPrice, { foreignKey: "plumBrandId" });
-db.plumFittingPrice.belongsTo(db.plumBrand, { foreignKey: "plumBrandId" });
-
 //Pipe Relationships
-db.plumGrade.hasMany(db.plumPipePrice, { foreignKey: "plumGradeId" });
-db.plumPipePrice.belongsTo(db.plumGrade, { foreignKey: "plumGradeId" });
+db.plumGrade.hasMany(db.plumPipeInfo, { foreignKey: "plumGradeId" });
+db.plumPipeInfo.belongsTo(db.plumGrade, { foreignKey: "plumGradeId" });
+
+db.plumSize.hasMany(db.plumPipeInfo, { foreignKey: "plumSizeId" });
+db.plumPipeInfo.belongsTo(db.plumSize, { foreignKey: "plumSizeId" });
+
+db.plumBrand.hasMany(db.plumPipeInfo, { foreignKey: "plumBrandId" });
+db.plumPipeInfo.belongsTo(db.plumBrand, { foreignKey: "plumBrandId" });
 
 db.plumPriceVersion.hasMany(db.plumPipePrice, {
   foreignKey: "plumPriceVersionId",
@@ -123,11 +153,8 @@ db.plumPipePrice.belongsTo(db.plumPriceVersion, {
   foreignKey: "plumPriceVersionId",
 });
 
-db.plumSize.hasMany(db.plumPipePrice, { foreignKey: "plumSizeId" });
-db.plumPipePrice.belongsTo(db.plumSize, { foreignKey: "plumSizeId" });
-
-db.plumBrand.hasMany(db.plumPipePrice, { foreignKey: "plumBrandId" });
-db.plumPipePrice.belongsTo(db.plumBrand, { foreignKey: "plumBrandId" });
+db.plumPipeInfo.hasMany(db.plumPipePrice, { foreignKey: "plumPipeInfoId" });
+db.plumPipePrice.belongsTo(db.plumPipeInfo, { foreignKey: "plumPipeInfoId" });
 
 //export db object
 module.exports = db;
