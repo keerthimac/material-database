@@ -1,13 +1,13 @@
 module.exports = (sequelize, DataTypes) => {
-  const PlumFittingType = sequelize.define(
-    "PlumFittingType",
+  const PlumType = sequelize.define(
+    "PlumType",
     {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      PlumFittingType: {
+      PlumType: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -17,5 +17,5 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
     }
   );
-  return PlumFittingType;
+  return PlumType;
 };

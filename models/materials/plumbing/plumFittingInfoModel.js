@@ -7,10 +7,6 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      plumFittingInfo: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
     },
     {
       freezeTableName: false,

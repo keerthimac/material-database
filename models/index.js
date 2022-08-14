@@ -43,7 +43,7 @@ db.plumPipePrice = require("./materials/plumbing/plumPipePriceModel")(
   sequelize,
   DataTypes
 );
-db.plumFittingType = require("./materials/plumbing/plumFittingTypeModel")(
+db.plumType = require("./materials/plumbing/plumTypeModel")(
   sequelize,
   DataTypes
 );
@@ -99,11 +99,11 @@ db.branch.belongsTo(db.bank, { foreignKey: "bankCode" });
 //define Relationships
 
 //fitting Relationships
-db.plumFittingType.hasMany(db.plumFittingInfo, {
-  foreignKey: "plumFittingTypeId",
+db.plumType.hasMany(db.plumFittingInfo, {
+  foreignKey: "plumTypeId",
 });
-db.plumFittingInfo.belongsTo(db.plumFittingType, {
-  foreignKey: "plumFittingTypeId",
+db.plumFittingInfo.belongsTo(db.plumType, {
+  foreignKey: "plumTypeId",
 });
 
 db.plumFitting.hasMany(db.plumFittingInfo, {

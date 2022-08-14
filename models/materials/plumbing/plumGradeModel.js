@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      plumStandard: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
     {
       freezeTableName: false,
