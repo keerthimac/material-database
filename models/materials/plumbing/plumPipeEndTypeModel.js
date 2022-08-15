@@ -1,24 +1,21 @@
 module.exports = (sequelize, DataTypes) => {
-  const Branch = sequelize.define(
-    "branch",
+  const plumPipeEndType = sequelize.define(
+    "plumPipeEndType",
     {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      branchCode: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      branchLocation: {
+      plumPipeEndType: {
         type: DataTypes.STRING,
         allowNull: false,
       },
     },
     {
+      freezeTableName: false,
       timestamps: false,
     }
   );
-  return Branch;
+  return plumPipeEndType;
 };

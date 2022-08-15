@@ -7,6 +7,14 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
+      plumPipeLengthMetric: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      plumPipeLengthImperial: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
     {
       freezeTableName: false,

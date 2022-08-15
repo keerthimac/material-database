@@ -2,13 +2,8 @@ module.exports = (sequelize, DataTypes) => {
   const Bank = sequelize.define(
     "bank",
     {
-      // id: {
-      //   type: DataTypes.INTEGER,
-      //   primaryKey: true,
-      //   autoIncrement: true,
-      // },
       bankCode: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         primaryKey: true,
         allowNull: false,
       },

@@ -77,6 +77,11 @@ db.plumFitting = require("./materials/plumbing/plumFittingModel")(
   DataTypes
 );
 
+db.plumPipeEndType = require("./materials/plumbing/plumPipeEndTypeModel")(
+  sequelize,
+  DataTypes
+);
+
 //sync tables
 const syncTables = async () => {
   try {
@@ -145,6 +150,16 @@ db.plumPipeInfo.belongsTo(db.plumSize, { foreignKey: "plumSizeId" });
 
 db.plumBrand.hasMany(db.plumPipeInfo, { foreignKey: "plumBrandId" });
 db.plumPipeInfo.belongsTo(db.plumBrand, { foreignKey: "plumBrandId" });
+
+db.plumType.hasMany(db.plumPipeInfo, { foreignKey: "plumTypeId" });
+db.plumPipeInfo.belongsTo(db.plumType, { foreignKey: "plumTypeId" });
+
+db.plumPipeEndType.hasMany(db.plumPipeInfo, {
+  foreignKey: "plumPipeEndTypeId",
+});
+db.plumPipeInfo.belongsTo(db.plumPipeEndType, {
+  foreignKey: "plumPipeEndTypeId",
+});
 
 db.plumPriceVersion.hasMany(db.plumPipePrice, {
   foreignKey: "plumPriceVersionId",
