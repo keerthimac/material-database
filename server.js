@@ -17,6 +17,7 @@ app.get("/", (req, res) => {
 app.use(errorHandler);
 
 app.use("/api/materials", require("./routes/materialRoutes"));
+app.use("/api/plumbing", require("./routes/plumbingRoutes"));
 
 app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`.brightMagenta.underline);

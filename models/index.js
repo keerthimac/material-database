@@ -82,10 +82,15 @@ db.plumPipeEndType = require("./materials/plumbing/plumPipeEndTypeModel")(
   DataTypes
 );
 
+db.plumImage = require("./materials/plumbing/plumImgModel")(
+  sequelize,
+  DataTypes
+);
+
 //sync tables
 const syncTables = async () => {
   try {
-    await db.sequelize.sync({ force: true });
+    await db.sequelize.sync({ alter: true });
     console.log("table sync successful".cyan.underline);
   } catch (error) {
     console.log(`Error:${error.message}`.red.underline.bold);
@@ -93,7 +98,7 @@ const syncTables = async () => {
 };
 
 connectDB();
-syncTables(); // optional -  When create new table
+// syncTables(); // optional -  When create new table
 
 //define Relationships
 //one to many relationship between banks and branches
@@ -126,6 +131,9 @@ db.plumFittingInfo.belongsTo(db.plumGrade, { foreignKey: "plumGradeId" });
 
 db.plumBrand.hasMany(db.plumFittingInfo, { foreignKey: "plumBrandId" });
 db.plumFittingInfo.belongsTo(db.plumBrand, { foreignKey: "plumBrandId" });
+
+db.plumImage.hasMany(db.plumFittingInfo, { foreignKey: "plumImageId" });
+db.plumFittingInfo.belongsTo(db.plumImage, { foreignKey: "plumImageId" });
 
 db.plumFittingInfo.hasMany(db.plumFittingPrice, {
   foreignKey: "plumFittingId",
@@ -160,6 +168,9 @@ db.plumPipeEndType.hasMany(db.plumPipeInfo, {
 db.plumPipeInfo.belongsTo(db.plumPipeEndType, {
   foreignKey: "plumPipeEndTypeId",
 });
+
+db.plumImage.hasMany(db.plumPipeInfo, { foreignKey: "plumImageId" });
+db.plumPipeInfo.belongsTo(db.plumImage, { foreignKey: "plumImageId" });
 
 db.plumPriceVersion.hasMany(db.plumPipePrice, {
   foreignKey: "plumPriceVersionId",

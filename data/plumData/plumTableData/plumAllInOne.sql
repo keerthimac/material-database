@@ -1,3 +1,5 @@
+USE material_database;
+
 INSERT INTO plumbrands (plumBrand)
 VALUES ("Slon"),
     ("Anton"),
